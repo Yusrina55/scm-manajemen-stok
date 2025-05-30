@@ -10,5 +10,6 @@ class TransactionDetail extends Pivot
     use HasFactory;
 
     protected $fillable = ['transaction_id', 'product_id', 'quantity', 'price', 'sub_total'];
+    public $timestamps = true;
 
 }

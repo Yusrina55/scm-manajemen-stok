@@ -11,6 +11,11 @@ class Product extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name', 'price'
+    ];
+    public $timestamps = true;
+
     public function transactions(): BelongsToMany
     {
         return $this->belongsToMany(Transaction::class)

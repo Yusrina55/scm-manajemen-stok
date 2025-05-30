@@ -24,6 +24,7 @@ class AdminPanelProvider extends PanelProvider
     {
         return $panel
             ->default()
+            ->brandName('Manajemen Stok')
             ->id('admin')
             ->path('admin')
             ->login()

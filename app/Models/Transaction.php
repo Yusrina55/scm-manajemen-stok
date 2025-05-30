@@ -10,6 +10,12 @@ class Transaction extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'transaction_date',
+        'total'
+    ];
+    public $timestamps = true;
+
     public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class)

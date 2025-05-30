@@ -9,6 +9,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class ReceivingLog extends Model
 {
     use HasFactory;
+    public $timestamps = true;
+    protected $fillable = [
+        'quantity',
+        'supplier_price',
+        'entry_date',
+        'product_id'
+    ];
 
     public function product(): BelongsTo
     {
