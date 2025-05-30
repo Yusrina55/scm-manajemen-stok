@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ProductResource\Pages;
-use App\Filament\Resources\ProductResource\RelationManagers;
-use App\Models\Product;
+use App\Filament\Resources\SupplierResource\Pages;
+use App\Filament\Resources\SupplierResource\RelationManagers;
+use App\Models\Supplier;
 use Filament\Forms;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\TextInput;
@@ -17,11 +17,11 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class ProductResource extends Resource
+class SupplierResource extends Resource
 {
-    protected static ?string $model = Product::class;
+    protected static ?string $model = Supplier::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-cube';
+    protected static ?string $navigationIcon = 'heroicon-o-truck';
 
     public static function form(Form $form): Form
     {
@@ -29,16 +29,21 @@ class ProductResource extends Resource
             ->schema([
                 Grid::make(2)->schema([
                     TextInput::make('name')
-                        ->label('Nama Produk')
+                        ->label('Nama Supplier')
                         ->required()
                         ->maxLength(255),
                 ]),
                 Grid::make(2)->schema([
-                    TextInput::make('price')
-                        ->label('Harga')
+                    TextInput::make('address')
+                        ->label('Alamat')
                         ->required()
-                        ->numeric()
-                        ->minValue(1),
+                        ->maxLength(255),
+                ]),
+                Grid::make(2)->schema([
+                    TextInput::make('phone')
+                        ->label('No. Telepon')
+                        ->required()
+                        ->tel()
                 ]),
             ]);
     }
@@ -48,11 +53,9 @@ class ProductResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('id')->sortable()->label('ID'),
-                TextColumn::make('name')->searchable()->label('Nama Produk'),
-                TextColumn::make('price')
-                    ->label('Harga')
-                    ->money('idr', true)
-                    ->sortable(),
+                TextColumn::make('name')->searchable()->label('Nama Supplier'),
+                TextColumn::make('address')->searchable()->label('Alamat'),
+                TextColumn::make('phone')->searchable()->label('No. Telepon'),
                 TextColumn::make('created_at')
                     ->label('Dibuat')
                     ->dateTime('d M Y H:i')
@@ -84,19 +87,9 @@ class ProductResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListProducts::route('/'),
-            'create' => Pages\CreateProduct::route('/create'),
-            'edit' => Pages\EditProduct::route('/{record}/edit'),
+            'index' => Pages\ListSuppliers::route('/'),
+            'create' => Pages\CreateSupplier::route('/create'),
+            'edit' => Pages\EditSupplier::route('/{record}/edit'),
         ];
-    }
-
-    public static function getModelLabel(): string
-    {
-        return 'Produk';
-    }
-
-    public static function getPluralModelLabel(): string
-    {
-        return 'Produk';
     }
 }

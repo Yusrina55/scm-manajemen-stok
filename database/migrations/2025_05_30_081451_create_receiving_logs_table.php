@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->integer('supplier_price');
             $table->timestamp('entry_date')->useCurrent();
             $table->foreignId('product_id')->constrained()->onUpdate('cascade')->onDelete('restrict');
+            $table->foreignId('supplier_id')->constrained()->onUpdate('cascade')->onDelete('restrict');
             $table->timestamps();
         });
     }
