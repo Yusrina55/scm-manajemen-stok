@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ProductResource extends Resource
 {
+    protected static ?int $navigationSort = 2;
     protected static ?string $model = Product::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-cube';
@@ -36,9 +37,10 @@ class ProductResource extends Resource
                 Grid::make(2)->schema([
                     TextInput::make('price')
                         ->label('Harga')
-                        ->required()
                         ->numeric()
-                        ->minValue(1),
+                        ->minValue(0)
+                        ->required()
+                        ->helperText('Masukkan harga dalam Rupiah')
                 ]),
             ]);
     }

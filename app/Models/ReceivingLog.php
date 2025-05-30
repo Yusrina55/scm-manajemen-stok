@@ -14,11 +14,16 @@ class ReceivingLog extends Model
         'quantity',
         'supplier_price',
         'entry_date',
-        'product_id'
+        'product_id',
+        'supplier_id',
     ];
 
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
+    }
+    public function supplier(): BelongsTo
+    {
+        return $this->belongsTo(Supplier::class);
     }
 }
