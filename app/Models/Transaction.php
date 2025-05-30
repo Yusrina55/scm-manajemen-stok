@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Transaction extends Model
 {
@@ -16,13 +16,8 @@ class Transaction extends Model
     ];
     public $timestamps = true;
 
-    public function products(): BelongsToMany
+    public function transactionDetails(): HasMany
     {
-        return $this->belongsToMany(Product::class)
-            ->using(TransactionDetail::class)
-            ->withPivot('quantity')
-            ->withPivot('price')
-            ->withPivot('sub_total')
-            ->withTimestamps();
+        return $this->hasMany(TransactionDetail::class);
     }
 }

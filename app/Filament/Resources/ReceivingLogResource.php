@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ReceivingLogResource\Pages;
 use App\Filament\Resources\ReceivingLogResource\RelationManagers;
 use App\Models\ReceivingLog;
+use Filament\Tables\Actions\ActionGroup;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Grid;
@@ -90,8 +91,10 @@ class ReceivingLogResource extends Resource
                     ->query(fn($query) => $query->whereDate('created_at', now()->toDateString())),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                ActionGroup::make([
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+                ])
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -121,9 +124,5 @@ class ReceivingLogResource extends Resource
         return 'Log Masuk';
     }
 
-    public static function getPluralModelLabel(): string
-    {
-        return 'Daftar Log Masuk';
-    }
 
 }

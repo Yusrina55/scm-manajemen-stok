@@ -16,14 +16,9 @@ class Product extends Model
     ];
     public $timestamps = true;
 
-    public function transactions(): BelongsToMany
+    public function transactionDetails(): HasMany
     {
-        return $this->belongsToMany(Transaction::class)
-            ->using(TransactionDetail::class)  // pakai model pivot khusus
-            ->withPivot('quantity')
-            ->withPivot('price')
-            ->withPivot('sub_total')
-            ->withTimestamps();
+        return $this->hasMany(TransactionDetail::class);
     }
     public function receivingLogs(): HasMany
     {

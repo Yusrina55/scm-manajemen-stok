@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ProductResource\Pages;
 use App\Filament\Resources\ProductResource\RelationManagers;
 use App\Models\Product;
+use Filament\Tables\Actions\ActionGroup;
 use Filament\Forms;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\TextInput;
@@ -66,8 +67,10 @@ class ProductResource extends Resource
                     ->query(fn($query) => $query->whereDate('created_at', now()->toDateString())),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                ActionGroup::make([
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+                ])
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -97,8 +100,4 @@ class ProductResource extends Resource
         return 'Produk';
     }
 
-    public static function getPluralModelLabel(): string
-    {
-        return 'Produk';
-    }
 }
