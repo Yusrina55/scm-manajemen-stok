@@ -20,4 +20,15 @@ class Transaction extends Model
     {
         return $this->hasMany(TransactionDetail::class);
     }
+
+    protected static function booted(): void
+    {
+        static::created(function ($transaction) {
+            foreach ($transaction->transactionDetails as $detail) {
+                $product = $detail->product;
+                $product->stock -= $detail->quantity;
+                $product->save();
+            }
+        });
+    }
 }

@@ -26,4 +26,30 @@ class ReceivingLog extends Model
     {
         return $this->belongsTo(Supplier::class);
     }
+
+    protected static function booted()
+    {
+        static::created(function ($log) {
+            $log->product->increment('stock', $log->quantity);
+        });
+
+        static::updated(function ($log) {
+            $originalQty = $log->getOriginal('quantity');
+            $originalProduct = $log->getOriginal('product_id');
+
+            if ($log->product_id != $originalProduct) {
+                // Jika ganti produk
+                \App\Models\Product::find($originalProduct)?->decrement('stock', $originalQty);
+                $log->product->increment('stock', $log->quantity);
+            } else {
+                // Jika tetap produk yang sama, tapi jumlah berubah
+                $diff = $log->quantity - $originalQty;
+                $log->product->increment('stock', $diff);
+            }
+        });
+
+        static::deleted(function ($log) {
+            $log->product->decrement('stock', $log->quantity);
+        });
+    }
 }
