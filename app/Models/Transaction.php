@@ -30,5 +30,12 @@ class Transaction extends Model
                 $product->save();
             }
         });
+
+        static::deleting(function ($transaction) {
+            foreach ($transaction->transactionDetails as $detail) {
+                $detail->delete(); // akan otomatis trigger event 'deleted' di TransactionDetail
+            }
+        });
     }
+    
 }

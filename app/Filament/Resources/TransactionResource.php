@@ -65,6 +65,14 @@ class TransactionResource extends Resource
                                     ->minValue(1)
                                     ->reactive()
                                     ->afterStateUpdated(fn($state, \Filament\Forms\Set $set, \Filament\Forms\Get $get) => $set('sub_total', $state * $get('price')))
+                                    ->rule(function (\Filament\Forms\Get $get) {
+                                        return function (string $attribute, $value, \Closure $fail) use ($get) {
+                                            $product = \App\Models\Product::find($get('product_id'));
+                                            if ($product && $value > $product->stock) {
+                                                $fail("Stok untuk produk {$product->name} hanya tersedia {$product->stock}.");
+                                            }
+                                        };
+                                    })
                                     ->columnSpan(2),
                                 TextInput::make('price')
                                     ->label('Harga')
