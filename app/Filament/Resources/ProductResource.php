@@ -60,6 +60,7 @@ class ProductResource extends Resource
                     ->label('Dibuat')
                     ->dateTime('d M Y H:i')
                     ->sortable(),
+                TextColumn::make('stock')->label('Stok Sekarang'),
             ])
             ->filters([
                 Filter::make('created_today')
